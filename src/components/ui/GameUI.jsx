@@ -7,6 +7,7 @@ const GameUI = () => {
   const walletAddress = useGameStore(s => s.walletAddress)
   const totalPlanted = useGameStore(s => s.totalPlanted)
   const totalHarvested = useGameStore(s => s.totalHarvested)
+  const pestsKilled = useGameStore(s => s.pestsKilled)
   const setWalletConnected = useGameStore(s => s.setWalletConnected)
   const setWalletDisconnected = useGameStore(s => s.setWalletDisconnected)
 
@@ -55,6 +56,10 @@ const GameUI = () => {
           <div className="stat-item">
             <span className="stat-icon">🎉</span>
             <span className="stat-value">{totalHarvested}</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-icon">🛡️</span>
+            <span className="stat-value">{pestsKilled}</span>
           </div>
         </div>
       </div>

@@ -388,3 +388,95 @@
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(241, 196, 15, 0.4); }
 }
+
+/* ---- Weather HUD ---- */
+.weather-hud {
+  position: absolute;
+  bottom: 50px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.weather-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 8px 14px;
+  backdrop-filter: blur(10px);
+}
+
+.weather-icon {
+  font-size: 20px;
+}
+
+.weather-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.time-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 6px 14px;
+  backdrop-filter: blur(10px);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+.day-counter {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.weather-effect {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green-light);
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  border-radius: 8px;
+  padding: 4px 10px;
+  text-align: center;
+}
+
+/* ---- Pest notification type ---- */
+.notification.pest {
+  border: 1px solid #e74c3c;
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.2);
+}
+
+.notification.defense {
+  border: 1px solid var(--green-primary);
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.2);
+}
+
+/* ---- Health bar on plants ---- */
+.health-bar-container {
+  width: 50px;
+  height: 4px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.health-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
