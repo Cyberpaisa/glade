@@ -1,0 +1,390 @@
+/* ========================================
+   PlantaVerse — Game Styles
+   ======================================== */
+
+:root {
+  --green-primary: #2ecc71;
+  --green-dark: #1a8a4a;
+  --green-light: #a8e6cf;
+  --earth-brown: #8B6914;
+  --earth-dark: #5c4813;
+  --sky-blue: #87CEEB;
+  --avax-red: #E84142;
+  --gold: #f1c40f;
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  --bg-panel: rgba(15, 25, 15, 0.85);
+  --font-display: 'Fredoka', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+/* ---- Top HUD ---- */
+.game-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 20px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hud-left, .hud-right {
+  pointer-events: auto;
+}
+
+.game-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.game-logo h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  letter-spacing: -0.5px;
+}
+
+.game-logo .logo-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* ---- Seed Balance ---- */
+.seed-balance {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-panel);
+  border: 2px solid var(--green-primary);
+  border-radius: 16px;
+  padding: 10px 18px;
+  backdrop-filter: blur(10px);
+}
+
+.seed-balance .seed-icon {
+  font-size: 24px;
+}
+
+.seed-balance .seed-amount {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
+}
+
+.seed-balance .seed-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--green-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- Stats Bar ---- */
+.stats-bar {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-panel);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  border-radius: 10px;
+  padding: 6px 12px;
+  backdrop-filter: blur(10px);
+}
+
+.stat-item .stat-icon {
+  font-size: 16px;
+}
+
+.stat-item .stat-value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #fff;
+}
+
+/* ---- Wallet Button ---- */
+.wallet-btn {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 14px;
+  border: 2px solid var(--avax-red);
+  background: rgba(232, 65, 66, 0.15);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wallet-btn:hover {
+  background: rgba(232, 65, 66, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(232, 65, 66, 0.3);
+}
+
+.wallet-btn.connected {
+  border-color: var(--green-primary);
+  background: rgba(46, 204, 113, 0.15);
+}
+
+.wallet-btn.connected:hover {
+  background: rgba(46, 204, 113, 0.3);
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* ---- Avalanche Badge ---- */
+.avax-badge {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--avax-red);
+  background: rgba(232, 65, 66, 0.1);
+  border: 1px solid rgba(232, 65, 66, 0.3);
+  border-radius: 8px;
+  padding: 4px 10px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ---- Plant Menu Modal ---- */
+.plant-menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+}
+
+.plant-menu {
+  background: linear-gradient(145deg, #1a2a1a, #0f1a0f);
+  border: 2px solid var(--green-primary);
+  border-radius: 24px;
+  padding: 28px;
+  min-width: 380px;
+  max-width: 450px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 
+              0 0 40px rgba(46, 204, 113, 0.1);
+}
+
+.plant-menu h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.seed-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.seed-option {
+  background: rgba(46, 204, 113, 0.08);
+  border: 2px solid rgba(46, 204, 113, 0.2);
+  border-radius: 16px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.seed-option:hover {
+  border-color: var(--green-primary);
+  background: rgba(46, 204, 113, 0.15);
+  transform: translateY(-2px);
+}
+
+.seed-option.selected {
+  border-color: var(--gold);
+  background: rgba(241, 196, 15, 0.12);
+  box-shadow: 0 0 20px rgba(241, 196, 15, 0.1);
+}
+
+.seed-option .seed-emoji {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.seed-option .seed-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.seed-option .seed-cost {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gold);
+  margin-top: 4px;
+}
+
+.seed-option .seed-yield {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green-light);
+}
+
+.seed-option .seed-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #888;
+}
+
+.plant-menu-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-plant {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+  color: #fff;
+}
+
+.btn-plant:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+}
+
+.btn-plant:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-cancel {
+  flex: 0.6;
+  font-family: var(--font-display);
+  font-size: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  border-color: rgba(255,255,255,0.4);
+  color: #fff;
+}
+
+/* ---- Notifications ---- */
+.notifications {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.notification {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  background: var(--bg-panel);
+  border-radius: 14px;
+  padding: 12px 24px;
+  backdrop-filter: blur(10px);
+  animation: notifSlideUp 0.4s ease, notifFadeOut 0.5s ease 2.5s forwards;
+  white-space: nowrap;
+}
+
+.notification.plant {
+  border: 1px solid var(--earth-brown);
+}
+
+.notification.harvest {
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 20px rgba(241, 196, 15, 0.15);
+}
+
+@keyframes notifSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes notifFadeOut {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ---- Controls Hint ---- */
+.controls-hint {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.controls-hint span {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+/* ---- Harvest Button (3D overlay) ---- */
+.harvest-hint {
+  position: absolute;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--gold), #e67e22);
+  color: #1a1a1a;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 10px;
+  pointer-events: none;
+  animation: harvestPulse 1.5s ease infinite;
+}
+
+@keyframes harvestPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(241, 196, 15, 0.4); }
+}
