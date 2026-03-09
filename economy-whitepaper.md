@@ -1,10 +1,10 @@
-# PlantaVerse Economy Whitepaper
+# Glade Economy Whitepaper
 
 ## Circular Token Economy Design
 
 ### Overview
 
-PlantaVerse implements a **burn-to-play, mint-to-earn** circular economy using the SEED ERC-20 token on Avalanche C-Chain. The design ensures sustainable gameplay where value flows in a closed loop.
+Glade implements a **burn-to-play, mint-to-earn** circular economy using the SEED ERC-20 token on Avalanche C-Chain. The design ensures sustainable gameplay where value flows in a closed loop.
 
 ### Token Flow
 
@@ -51,4 +51,4 @@ These metrics enable real-time economy health monitoring and future DAO governan
 
 ---
 
-*PlantaVerse — Where farming meets DeFi on Avalanche.*
+*Glade — Where farming meets DeFi on Avalanche.*

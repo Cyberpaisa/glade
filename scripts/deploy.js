@@ -2,7 +2,7 @@ const hre = require("hardhat");
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
-  console.log("🚀 Deploying PlantaVerse contracts...");
+  console.log("🚀 Deploying Glade contracts...");
   console.log("📍 Deployer:", deployer.address);
   console.log("💰 Balance:", hre.ethers.formatEther(await hre.ethers.provider.getBalance(deployer.address)), "AVAX");
 
@@ -14,21 +14,21 @@ async function main() {
   const seedAddr = await seedToken.getAddress();
   console.log("✅ SeedToken deployed to:", seedAddr);
 
-  // 2. Deploy PlantaVerse Game
-  console.log("\n--- Deploying PlantaVerse ---");
-  const PlantaVerse = await hre.ethers.getContractFactory("PlantaVerse");
-  const plantaverse = await PlantaVerse.deploy(seedAddr);
-  await plantaverse.waitForDeployment();
-  const gameAddr = await plantaverse.getAddress();
-  console.log("✅ PlantaVerse deployed to:", gameAddr);
+  // 2. Deploy Glade Game
+  console.log("\n--- Deploying Glade ---");
+  const Glade = await hre.ethers.getContractFactory("Glade");
+  const glade = await Glade.deploy(seedAddr);
+  await glade.waitForDeployment();
+  const gameAddr = await glade.getAddress();
+  console.log("✅ Glade deployed to:", gameAddr);
 
   // 3. Summary
   console.log("\n========================================");
-  console.log("🌱 PlantaVerse — Deployment Complete");
+  console.log("🌱 Glade — Deployment Complete");
   console.log("========================================");
   console.log("Network:     ", hre.network.name);
   console.log("SeedToken:   ", seedAddr);
-  console.log("PlantaVerse: ", gameAddr);
+  console.log("Glade:       ", gameAddr);
   console.log("========================================");
   console.log("\nNext steps:");
   console.log("1. Add contract addresses to frontend .env");

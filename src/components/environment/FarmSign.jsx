@@ -23,7 +23,7 @@ const FarmSign = () => {
         anchorY="middle"
         font={undefined}
       >
-        PlantaVerse
+        Glade
       </Text>
     </group>
   )

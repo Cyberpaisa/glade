@@ -1,7 +1,7 @@
 {
-  "name": "plantaverse",
+  "name": "glade",
   "version": "0.1.0",
-  "description": "🌱 PlantaVerse — 3D Plant Farming Game on Avalanche C-Chain",
+  "description": "🌱 Glade — 3D Plant Farming Game on Avalanche C-Chain",
   "private": true,
   "type": "module",
   "scripts": {

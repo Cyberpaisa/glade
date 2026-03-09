@@ -34,7 +34,7 @@ const GameUI = () => {
       <div className="hud-left">
         <div className="game-logo">
           <span className="logo-icon">🌱</span>
-          <h1>PlantaVerse</h1>
+          <h1>Glade</h1>
         </div>
         
         <div style={{ marginTop: '12px' }}>

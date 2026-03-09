@@ -4,13 +4,13 @@ pragma solidity ^0.8.20;
 import "./SeedToken.sol";
 
 /**
- * @title PlantaVerse
+ * @title Glade
  * @dev On-chain farming game logic on Avalanche C-Chain
  * 
  * Players own plots, plant seeds (burn SEED), wait for growth,
  * then harvest (mint SEED). Circular economy.
  */
-contract PlantaVerse {
+contract Glade {
     
     SeedToken public seedToken;
     

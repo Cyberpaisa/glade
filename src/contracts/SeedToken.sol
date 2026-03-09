@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title SeedToken
- * @dev ERC-20 token for PlantaVerse farming economy on Avalanche C-Chain
+ * @dev ERC-20 token for Glade farming economy on Avalanche C-Chain
  * 
  * ECONOMY:
  * - Players receive initial SEED tokens via faucet (testnet)
@@ -32,7 +32,7 @@ contract SeedToken is ERC20, Ownable {
     event Harvested(address indexed player, uint256 plotId, uint256 reward);
     event FaucetClaim(address indexed player, uint256 amount);
 
-    constructor() ERC20("PlantaVerse SEED", "SEED") Ownable(msg.sender) {
+    constructor() ERC20("Glade SEED", "SEED") Ownable(msg.sender) {
         _mint(msg.sender, INITIAL_SUPPLY);
     }
 

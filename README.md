@@ -1,27 +1,31 @@
-# 🌱 PlantaVerse — 3D Plant Farming Game on Avalanche
+# Glade
 
-> **A fun, immersive 3D farming simulator built on Avalanche C-Chain with a circular token economy.**
+**3D farming game on Avalanche C-Chain with a circular token economy.**
 
-![Avalanche](https://img.shields.io/badge/Avalanche-C--Chain-E84142?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjU0IiBoZWlnaHQ9IjI1NCIgdmlld0JveD0iMCAwIDI1NCAyNTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PC9zdmc+)
-![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity)
-![React](https://img.shields.io/badge/React_Three_Fiber-3D-61DAFB?style=for-the-badge&logo=react)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+[![Avalanche](https://img.shields.io/badge/Avalanche-C--Chain-E84142?style=flat-square&logo=avalanche&logoColor=white)](https://www.avax.network/)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=flat-square&logo=solidity)](https://soliditylang.org/)
+[![React](https://img.shields.io/badge/React_Three_Fiber-3D-61DAFB?style=flat-square&logo=react)](https://docs.pmnd.rs/react-three-fiber)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-## 🎮 What is PlantaVerse?
+---
 
-PlantaVerse is a **browser-based 3D farming game** where players plant, grow, and harvest virtual crops — all powered by smart contracts on Avalanche's C-Chain. The game features a **circular token economy** using the SEED ERC-20 token:
+## Overview
 
-- 🔥 **Plant** → Burns SEED tokens (deflationary)
-- 🌱 **Grow** → Watch your 3D plants grow in real-time
-- 🎉 **Harvest** → Mints SEED tokens as rewards (inflationary)
-- ♻️ **Circular Economy** → Harvest yields > Plant costs, incentivizing gameplay
+Glade is a browser-based 3D farming game where players plant, grow, and harvest virtual crops — all powered by smart contracts on Avalanche's C-Chain. The game uses the **SEED** ERC-20 token in a circular economy:
 
-## 🏗️ Architecture
+- **Plant** — Burns SEED tokens (deflationary pressure)
+- **Grow** — Real-time 3D growth with visual stages
+- **Harvest** — Mints SEED tokens as rewards (yield > cost)
+
+<!-- Add a screenshot or demo GIF here -->
+<!-- ![Glade Demo](docs/demo.gif) -->
+
+## Architecture
 
 ```
 ┌──────────────────────────────────────────────┐
 │                  FRONTEND                     │
-│  React + React Three Fiber + Zustand          │
+│  React 18 + React Three Fiber + Zustand       │
 │  ┌──────────┐  ┌──────────┐  ┌────────────┐  │
 │  │ 3D Farm  │  │  Game UI │  │   Wallet    │  │
 │  │ (WebGL)  │  │  (HUD)   │  │  (wagmi)   │  │
@@ -31,157 +35,164 @@ PlantaVerse is a **browser-based 3D farming game** where players plant, grow, an
 ┌─────────────────────┴────────────────────────┐
 │            AVALANCHE C-CHAIN (Fuji)           │
 │  ┌────────────────┐  ┌────────────────────┐  │
-│  │  SeedToken.sol │  │  PlantaVerse.sol   │  │
+│  │  SeedToken.sol │  │  Glade.sol         │  │
 │  │  (ERC-20)      │  │  (Game Logic)      │  │
-│  │  mint/burn     │  │  plant/harvest     │  │
+│  │  mint / burn   │  │  plant / harvest   │  │
 │  └────────────────┘  └────────────────────┘  │
 └──────────────────────────────────────────────┘
 ```
 
-## ✨ Features
+## Features
 
 ### 3D Farm Environment
-- Immersive isometric farm view with WebGL rendering
-- Interactive 3x3 plot grid with click-to-plant mechanics
-- 4 growth stages with visual progression (seed → sprout → growing → ready)
-- Animated decorations: windmill, barn, trees, flowers, water trough
+- Isometric farm view rendered with WebGL
+- Interactive 3x3 plot grid — click to plant or harvest
+- Four visual growth stages: seed, sprout, growing, ready
+- Animated environment: trees, rocks, flowers, farm sign
 - Progress bars and harvest glow effects
 
-### Blockchain Economy
-- **SEED Token (ERC-20)**: Native game currency on Avalanche C-Chain
-- **4 Crop Types**: Tomato, Corn, Carrot, Lettuce — each with unique economics
-- **On-chain Faucet**: Players claim free SEED to start playing
-- **Burn-to-Plant / Mint-to-Harvest**: Real circular token flow
-- **Economy Dashboard**: Track total supply, burns, mints, net flow
+### On-Chain Economy
+- **SEED Token (ERC-20)** — native game currency
+- **Burn-to-Plant / Mint-to-Harvest** — real circular token flow
+- **On-chain faucet** — claim free SEED to start playing (testnet)
+- **Economy metrics** — total supply, burns, mints, net flow
 
 ### Crop Economics
 
-| Crop     | Cost (SEED) | Yield (SEED) | ROI   | Growth Time |
-|----------|-------------|--------------|-------|-------------|
-| 🥕 Carrot  | 5          | 12           | 2.4x  | 20s         |
-| 🥬 Lettuce | 8          | 18           | 2.25x | 25s         |
-| 🍅 Tomato  | 10         | 25           | 2.5x  | 30s         |
-| 🌽 Corn    | 15         | 40           | 2.67x | 45s         |
+| Crop     | Cost | Yield | ROI   | Growth Time |
+|----------|------|-------|-------|-------------|
+| Carrot   | 5    | 12    | 2.4x  | 20s         |
+| Lettuce  | 8    | 18    | 2.25x | 25s         |
+| Tomato   | 10   | 25    | 2.5x  | 30s         |
+| Corn     | 15   | 40    | 2.67x | 45s         |
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- MetaMask wallet
-- Avalanche Fuji testnet AVAX ([Get from faucet](https://faucet.avax.network/))
 
-### 1. Clone & Install
+- Node.js 18+
+- MetaMask or compatible wallet
+- Fuji testnet AVAX — [faucet.avax.network](https://faucet.avax.network/)
+
+### Install
 
 ```bash
-git clone https://github.com/Colombia-Blockchain/plantaverse.git
-cd plantaverse
+git clone https://github.com/Cyberpaisa/glade.git
+cd glade
 npm install
 ```
 
-### 2. Deploy Smart Contracts (Fuji Testnet)
-
-```bash
-cp .env.example .env
-# Edit .env with your private key
-
-npx hardhat compile
-npx hardhat run scripts/deploy.js --network fuji
-```
-
-### 3. Run the Game
+### Run the frontend
 
 ```bash
 npm run dev
-# Open http://localhost:5173
+# Opens at http://localhost:5173
 ```
 
-### 4. Play!
-1. Connect your MetaMask wallet (Fuji Testnet)
+### Compile and deploy contracts
+
+```bash
+cp .env.example .env
+# Add your private key to .env
+
+npx hardhat compile --config hardhat.config.cjs
+npx hardhat run scripts/deploy.js --network fuji --config hardhat.config.cjs
+```
+
+### Play
+
+1. Connect your wallet (switch to Fuji Testnet)
 2. Claim SEED tokens from the in-game faucet
-3. Click on an empty plot to plant
-4. Choose your seed type
-5. Watch it grow in 3D!
-6. Harvest when ready to earn SEED
+3. Click an empty plot to choose a seed
+4. Watch it grow in 3D
+5. Harvest when ready to earn SEED
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-plantaverse/
+glade/
 ├── src/
-│   ├── contracts/          # Solidity smart contracts
-│   │   ├── SeedToken.sol   # ERC-20 SEED token
-│   │   └── PlantaVerse.sol # Game logic contract
+│   ├── contracts/              # Solidity smart contracts
+│   │   ├── SeedToken.sol       # ERC-20 SEED token
+│   │   └── Glade.sol           # Game logic contract
 │   ├── components/
-│   │   ├── environment/    # 3D world components
-│   │   │   ├── FarmPlot.jsx    # Interactive farm plots
-│   │   │   ├── Trees.jsx       # Tree decorations
-│   │   │   ├── Decorations.jsx # Barn, windmill, etc.
-│   │   │   └── FarmSign.jsx    # Farm sign
-│   │   └── ui/             # Game interface
-│   │       ├── GameUI.jsx      # HUD (balance, stats)
-│   │       ├── PlantMenu.jsx   # Seed selection modal
+│   │   ├── environment/        # 3D scene components
+│   │   │   ├── FarmPlot.jsx
+│   │   │   ├── Trees.jsx
+│   │   │   ├── Decorations.jsx
+│   │   │   └── FarmSign.jsx
+│   │   └── ui/                 # Game interface
+│   │       ├── GameUI.jsx
+│   │       ├── PlantMenu.jsx
 │   │       └── Notifications.jsx
 │   ├── store/
-│   │   └── gameStore.js    # Zustand state management
-│   ├── App.jsx             # Main app with Canvas
-│   ├── Experience.jsx      # 3D scene manager
-│   └── main.jsx            # Entry point
+│   │   └── gameStore.js        # Zustand state management
+│   ├── App.jsx
+│   ├── Experience.jsx          # 3D scene manager
+│   └── main.jsx
 ├── scripts/
-│   └── deploy.js           # Hardhat deployment
-├── docs/
-│   └── economy-whitepaper.md
+│   └── deploy.js               # Hardhat deployment script
 ├── hardhat.config.cjs
 ├── vite.config.js
 └── package.json
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-| Layer        | Technology                           |
-|-------------|--------------------------------------|
-| 3D Engine   | Three.js + React Three Fiber         |
-| UI Framework| React 18                             |
-| State       | Zustand                              |
-| Physics     | @react-three/cannon                  |
-| Blockchain  | Avalanche C-Chain (Fuji Testnet)     |
-| Contracts   | Solidity 0.8.20 + OpenZeppelin       |
-| Tooling     | Hardhat + Vite                       |
-| Web3        | wagmi + viem + RainbowKit            |
-| Styling     | Custom CSS with CSS Variables        |
+| Layer       | Technology                         |
+|-------------|------------------------------------|
+| 3D Engine   | Three.js + React Three Fiber       |
+| UI          | React 18                           |
+| State       | Zustand                            |
+| Physics     | @react-three/cannon                |
+| Blockchain  | Avalanche C-Chain (Fuji Testnet)   |
+| Contracts   | Solidity 0.8.20 + OpenZeppelin     |
+| Tooling     | Hardhat + Vite                     |
+| Web3        | wagmi + viem + RainbowKit          |
 
-## 🗺️ Roadmap
+## Roadmap
 
-### ✅ Stage 2: MVP (Current)
+### MVP (current)
 - [x] 3D farm environment with interactive plots
 - [x] Plant/harvest mechanics with visual feedback
 - [x] SEED token (ERC-20) on Avalanche Fuji
 - [x] Circular burn/mint economy
 - [x] Game UI with wallet connection
 
-### 🔜 Stage 3: GTM & Vision
-- [ ] Full wagmi integration with real contract calls
+### Next
+- [ ] Full wagmi integration with live contract calls
 - [ ] ERC-1155 NFT crops (rare plants, special seeds)
-- [ ] Multiplayer marketplace (trade crops between players)
+- [ ] Multiplayer marketplace
 - [ ] Seasonal events and limited-time seeds
 - [ ] Leaderboard system
 
-### 🔮 Future
-- [ ] Avalanche L1 dedicated game chain
+### Future
+- [ ] Dedicated Avalanche L1 game chain
 - [ ] Mobile PWA support
 - [ ] AI-powered plant genetics (crossbreeding)
-- [ ] DAO governance for game economy parameters
+- [ ] DAO governance for economy parameters
 - [ ] Mainnet launch
 
-## 🤝 Team
+## Contributing
 
-Built with 💚 by **@Cyber_paisa** for the [Avalanche Build Games 2026](https://build.avax.network/build-games) competition.
+Contributions are welcome. Please open an issue first to discuss what you'd like to change.
 
-Part of the [Colombia-Blockchain](https://github.com/Colombia-Blockchain) ecosystem.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -m "feat: add my feature"`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Open a Pull Request
 
-## 📄 License
+## Security
 
-MIT License — See [LICENSE](LICENSE) for details.
+Smart contracts have **not** been audited. This is a prototype for the Avalanche Build Games 2026 hackathon. Do not use with real funds.
 
----
+If you find a vulnerability, please open a private security advisory instead of a public issue.
 
-**🌱 Plant. Grow. Harvest. Earn. — PlantaVerse on Avalanche.**
+## Team
+
+Built by [@Cyber_paisa](https://github.com/Cyberpaisa) for [Avalanche Build Games 2026](https://build.avax.network/build-games).
+
+## License
+
+MIT — see [LICENSE](LICENSE) for details.
