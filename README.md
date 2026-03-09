@@ -17,8 +17,54 @@ Glade is a browser-based 3D farming game where players plant, grow, and harvest 
 - **Grow** — Real-time 3D growth with visual stages
 - **Harvest** — Mints SEED tokens as rewards (yield > cost)
 
-<!-- Add a screenshot or demo GIF here -->
-<!-- ![Glade Demo](docs/demo.gif) -->
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- MetaMask or any Web3 wallet
+- Fuji testnet AVAX — [faucet.avax.network](https://faucet.avax.network/)
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/Cyberpaisa/glade.git
+cd glade
+npm install
+```
+
+### 2. Run the game
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### 3. Connect your wallet
+
+Click the **Connect Wallet** button (top-right). The game uses RainbowKit and supports MetaMask, WalletConnect, Coinbase Wallet, and more. Make sure you are on the **Avalanche Fuji Testnet**.
+
+### 4. Play
+
+1. Use **WASD** to move your farmer around the 3D farm
+2. **Click** an empty plot to open the seed menu
+3. Choose a basic seed or use a card from your collection
+4. Watch it grow through 4 visual stages
+5. **Click** a fully grown plant to harvest and earn SEED
+6. **Click** pests to defend your crops and earn bonus SEED
+
+### 5. Deploy contracts (optional)
+
+```bash
+cp .env.example .env
+# Add your private key and RPC URL to .env
+
+npx hardhat compile --config hardhat.config.cjs
+npx hardhat run scripts/deploy.js --network fuji --config hardhat.config.cjs
+```
+
+---
 
 ## Architecture
 
@@ -28,10 +74,10 @@ Glade is a browser-based 3D farming game where players plant, grow, and harvest 
 │  React 18 + React Three Fiber + Zustand       │
 │  ┌──────────┐  ┌──────────┐  ┌────────────┐  │
 │  │ 3D Farm  │  │  Game UI │  │   Wallet    │  │
-│  │ (WebGL)  │  │  (HUD)   │  │  (wagmi)   │  │
+│  │ (WebGL)  │  │  (HUD)   │  │ (RainbowKit)│  │
 │  └──────────┘  └──────────┘  └────────────┘  │
 └─────────────────────┬────────────────────────┘
-                      │ ethers.js / viem
+                      │ wagmi + viem
 ┌─────────────────────┴────────────────────────┐
 │            AVALANCHE C-CHAIN (Fuji)           │
 │  ┌────────────────┐  ┌────────────────────┐  │
@@ -45,17 +91,48 @@ Glade is a browser-based 3D farming game where players plant, grow, and harvest 
 ## Features
 
 ### 3D Farm Environment
-- Isometric farm view rendered with WebGL
-- Interactive 3x3 plot grid — click to plant or harvest
+- Isometric farm rendered with WebGL via React Three Fiber
+- Interactive 3x3 plot grid with click-to-plant and click-to-harvest
 - Four visual growth stages: seed, sprout, growing, ready
-- Animated environment: trees, rocks, flowers, farm sign
-- Progress bars and harvest glow effects
+- WASD player controller with walking animation
+- Dynamic day/night cycle with smooth lighting transitions
+- Weather system: sunny, rain, drought, storm — each affects growth speed
+- Animated trees, rocks, flowers, and farm sign
+
+### Pest Defense
+- Pests spawn randomly and move toward your crops
+- Click to eliminate them and earn SEED rewards
+- Undefended plants take damage over time
+
+### Seed Card System
+- Pokemon-style collectible seed cards with unique stats
+- Four rarity tiers: Common, Rare, Epic, Legendary
+- Each card has Yield, Speed, Resilience, and Potency stats
+- Traits: Fast Grow, High Yield, Resilient, All Weather, Double Harvest, Glowing
+- Plant directly from your card collection via the PlantMenu
+
+### Hybridization Lab
+- Combine two seed cards to create a new hybrid
+- Hybrids inherit mixed stats and random traits from parents
+- Higher rarity parents produce stronger offspring
+- Hybridization costs SEED tokens (scales with parent rarity)
+
+### Staking
+- Stake Rare+ cards to earn passive SEED income
+- Rewards accumulate every second
+- Higher rarity cards yield more SEED per tick
+- Unstake anytime to recover your card
 
 ### On-Chain Economy
 - **SEED Token (ERC-20)** — native game currency
-- **Burn-to-Plant / Mint-to-Harvest** — real circular token flow
+- **Burn-to-Plant / Mint-to-Harvest** — circular token flow
+- **Card packs** — spend SEED to open Basic (15) or Premium (50) packs
 - **On-chain faucet** — claim free SEED to start playing (testnet)
-- **Economy metrics** — total supply, burns, mints, net flow
+
+### Wallet Integration
+- RainbowKit + wagmi for real wallet connection
+- MetaMask, WalletConnect, Coinbase Wallet support
+- Avalanche C-Chain Fuji Testnet
 
 ### Crop Economics
 
@@ -66,46 +143,7 @@ Glade is a browser-based 3D farming game where players plant, grow, and harvest 
 | Tomato   | 10   | 25    | 2.5x  | 30s         |
 | Corn     | 15   | 40    | 2.67x | 45s         |
 
-## Quick Start
-
-### Prerequisites
-
-- Node.js 18+
-- MetaMask or compatible wallet
-- Fuji testnet AVAX — [faucet.avax.network](https://faucet.avax.network/)
-
-### Install
-
-```bash
-git clone https://github.com/Cyberpaisa/glade.git
-cd glade
-npm install
-```
-
-### Run the frontend
-
-```bash
-npm run dev
-# Opens at http://localhost:5173
-```
-
-### Compile and deploy contracts
-
-```bash
-cp .env.example .env
-# Add your private key to .env
-
-npx hardhat compile --config hardhat.config.cjs
-npx hardhat run scripts/deploy.js --network fuji --config hardhat.config.cjs
-```
-
-### Play
-
-1. Connect your wallet (switch to Fuji Testnet)
-2. Claim SEED tokens from the in-game faucet
-3. Click an empty plot to choose a seed
-4. Watch it grow in 3D
-5. Harvest when ready to earn SEED
+Seed cards apply rarity multipliers on top of base economics.
 
 ## Project Structure
 
@@ -117,19 +155,30 @@ glade/
 │   │   └── Glade.sol           # Game logic contract
 │   ├── components/
 │   │   ├── environment/        # 3D scene components
-│   │   │   ├── FarmPlot.jsx
+│   │   │   ├── FarmPlot.jsx    # Interactive farm plots
+│   │   │   ├── Player.jsx      # WASD player controller
+│   │   │   ├── Pests.jsx       # Pest spawning and defense
+│   │   │   ├── WeatherSystem.jsx # Rain and storm effects
 │   │   │   ├── Trees.jsx
 │   │   │   ├── Decorations.jsx
 │   │   │   └── FarmSign.jsx
 │   │   └── ui/                 # Game interface
-│   │       ├── GameUI.jsx
-│   │       ├── PlantMenu.jsx
+│   │       ├── GameUI.jsx      # HUD with RainbowKit wallet
+│   │       ├── PlantMenu.jsx   # Seed selection (basic + cards)
+│   │       ├── CardCollection.jsx # Card grid, staking, shop
+│   │       ├── HybridLab.jsx   # Card hybridization UI
+│   │       ├── SeedCard.jsx    # Card component with stats
+│   │       ├── WeatherHUD.jsx  # Weather and time display
 │   │       └── Notifications.jsx
+│   ├── wallet/
+│   │   └── config.js           # Wagmi + Avalanche Fuji config
 │   ├── store/
-│   │   └── gameStore.js        # Zustand state management
+│   │   ├── gameStore.js        # Zustand state management
+│   │   └── seedCards.js        # Card generation and hybridization
 │   ├── App.jsx
 │   ├── Experience.jsx          # 3D scene manager
-│   └── main.jsx
+│   ├── main.jsx
+│   └── styles.css
 ├── scripts/
 │   └── deploy.js               # Hardhat deployment script
 ├── hardhat.config.cjs
@@ -157,10 +206,15 @@ glade/
 - [x] Plant/harvest mechanics with visual feedback
 - [x] SEED token (ERC-20) on Avalanche Fuji
 - [x] Circular burn/mint economy
-- [x] Game UI with wallet connection
+- [x] Wallet connection with RainbowKit
+- [x] Pest defense system
+- [x] Weather and day/night cycle
+- [x] Seed card collection with rarity tiers
+- [x] Hybridization lab
+- [x] Card staking for passive income
 
 ### Next
-- [ ] Full wagmi integration with live contract calls
+- [ ] Live contract calls via wagmi hooks
 - [ ] ERC-1155 NFT crops (rare plants, special seeds)
 - [ ] Multiplayer marketplace
 - [ ] Seasonal events and limited-time seeds
