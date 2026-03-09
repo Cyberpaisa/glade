@@ -93,10 +93,10 @@ function DynamicLighting() {
   let skyTurbidity = 3
 
   if (isNight) {
-    ambientIntensity = 0.15
-    dirIntensity = 0.1
-    dirColor = '#4466aa'
-    skyTurbidity = 10
+    ambientIntensity = 0.35
+    dirIntensity = 0.25
+    dirColor = '#6688cc'
+    skyTurbidity = 8
   } else if (isDusk) {
     ambientIntensity = 0.3
     dirIntensity = 0.7
@@ -138,8 +138,8 @@ function DynamicLighting() {
       />
       <directionalLight
         position={[-5, 8, -5]}
-        intensity={isNight ? 0.05 : 0.3}
-        color={isNight ? '#223355' : '#87CEEB'}
+        intensity={isNight ? 0.15 : 0.3}
+        color={isNight ? '#445577' : '#87CEEB'}
       />
       <Sky
         sunPosition={[sunX, sunHeight, 50]}

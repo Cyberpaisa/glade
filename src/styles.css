@@ -196,6 +196,105 @@
   margin-bottom: 20px;
 }
 
+.plant-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.plant-tabs button {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 13px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.plant-tabs button.active {
+  background: var(--green-primary);
+  color: #fff;
+  border-color: var(--green-primary);
+}
+
+.card-plant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+
+.card-plant-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.card-plant-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.card-plant-item.selected {
+  background: rgba(255,255,255,0.08);
+}
+
+.cpi-rarity {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.cpi-info {
+  flex: 1;
+}
+
+.cpi-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.cpi-stats {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.cpi-traits {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.cpi-cost {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
 .seed-options {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { useAccount } from 'wagmi'
 import { useGameStore } from '../../store/gameStore'
 
 const GameUI = () => {
   const seedBalance = useGameStore(s => s.seedBalance)
-  const walletConnected = useGameStore(s => s.walletConnected)
-  const walletAddress = useGameStore(s => s.walletAddress)
   const totalPlanted = useGameStore(s => s.totalPlanted)
   const totalHarvested = useGameStore(s => s.totalHarvested)
   const pestsKilled = useGameStore(s => s.pestsKilled)
@@ -15,21 +15,16 @@ const GameUI = () => {
   const toggleCollection = useGameStore(s => s.toggleCollection)
   const toggleLab = useGameStore(s => s.toggleLab)
 
-  const handleWalletClick = () => {
-    if (walletConnected) {
-      setWalletDisconnected()
-    } else {
-      const fakeAddr = '0x' + Array.from({length: 40}, () =>
-        '0123456789abcdef'[Math.floor(Math.random() * 16)]
-      ).join('')
-      setWalletConnected(fakeAddr)
-    }
-  }
+  const { address, isConnected } = useAccount()
 
-  const shortenAddress = (addr) => {
-    if (!addr) return ''
-    return `${addr.slice(0, 6)}...${addr.slice(-4)}`
-  }
+  // Sync wallet state to game store
+  useEffect(() => {
+    if (isConnected && address) {
+      setWalletConnected(address)
+    } else {
+      setWalletDisconnected()
+    }
+  }, [isConnected, address, setWalletConnected, setWalletDisconnected])
 
   return (
     <div className="game-hud">
@@ -64,7 +59,6 @@ const GameUI = () => {
           </div>
         </div>
 
-        {/* Game action buttons */}
         <div className="hud-actions">
           <button className="hud-action-btn collection" onClick={toggleCollection}>
             Cards ({seedCards.length})
@@ -74,31 +68,20 @@ const GameUI = () => {
           </button>
           {stakedCards.length > 0 && (
             <div className="staking-indicator">
-              Staking: {stakedCards.length} cards
+              Staking: {stakedCards.length}
             </div>
           )}
         </div>
       </div>
 
       <div className="hud-right">
-        <button
-          className={`wallet-btn ${walletConnected ? 'connected' : ''}`}
-          onClick={handleWalletClick}
-        >
-          {walletConnected ? (
-            <>
-              <span>🟢</span>
-              <span>{shortenAddress(walletAddress)}</span>
-            </>
-          ) : (
-            <>
-              <span>🔗</span>
-              <span>Connect Wallet</span>
-            </>
-          )}
-        </button>
+        <ConnectButton
+          chainStatus="icon"
+          showBalance={true}
+          accountStatus="address"
+        />
         <div className="avax-badge">
-          ◆ Avalanche C-Chain · Fuji Testnet
+          Avalanche C-Chain · Fuji Testnet
         </div>
       </div>
     </div>
