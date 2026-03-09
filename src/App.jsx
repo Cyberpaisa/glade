@@ -6,6 +6,8 @@ import GameUI from './components/ui/GameUI'
 import PlantMenu from './components/ui/PlantMenu'
 import Notifications from './components/ui/Notifications'
 import WeatherHUD from './components/ui/WeatherHUD'
+import CardCollection from './components/ui/CardCollection'
+import HybridLab from './components/ui/HybridLab'
 import { useGameStore } from './store/gameStore'
 import './styles.css'
 
@@ -22,18 +24,16 @@ const App = () => {
   const updateTimeAndWeather = useGameStore(s => s.updateTimeAndWeather)
   const spawnPest = useGameStore(s => s.spawnPest)
   const updatePests = useGameStore(s => s.updatePests)
+  const collectStakingRewards = useGameStore(s => s.collectStakingRewards)
 
   useEffect(() => {
-    // Growth + weather every second
     const growthInterval = setInterval(() => {
       updatePlantGrowth()
       updateTimeAndWeather()
+      collectStakingRewards()
     }, 1000)
 
-    // Pest spawning every 2 seconds
     const pestSpawnInterval = setInterval(spawnPest, 2000)
-
-    // Pest movement every 100ms
     const pestMoveInterval = setInterval(updatePests, 100)
 
     return () => {
@@ -41,7 +41,7 @@ const App = () => {
       clearInterval(pestSpawnInterval)
       clearInterval(pestMoveInterval)
     }
-  }, [updatePlantGrowth, updateTimeAndWeather, spawnPest, updatePests])
+  }, [updatePlantGrowth, updateTimeAndWeather, spawnPest, updatePests, collectStakingRewards])
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
@@ -59,11 +59,13 @@ const App = () => {
       <PlantMenu />
       <Notifications />
       <WeatherHUD />
+      <CardCollection />
+      <HybridLab />
 
       <div className="controls-hint">
-        <span>WASD: Mover granjero</span>
-        <span>Click parcela: Plantar/Cosechar</span>
-        <span>Click plaga: Defender!</span>
+        <span>WASD: Mover</span>
+        <span>Click: Plantar/Cosechar</span>
+        <span>Click plaga: Defender</span>
       </div>
     </div>
   )

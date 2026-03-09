@@ -8,16 +8,18 @@ const GameUI = () => {
   const totalPlanted = useGameStore(s => s.totalPlanted)
   const totalHarvested = useGameStore(s => s.totalHarvested)
   const pestsKilled = useGameStore(s => s.pestsKilled)
+  const seedCards = useGameStore(s => s.seedCards)
+  const stakedCards = useGameStore(s => s.stakedCards)
   const setWalletConnected = useGameStore(s => s.setWalletConnected)
   const setWalletDisconnected = useGameStore(s => s.setWalletDisconnected)
+  const toggleCollection = useGameStore(s => s.toggleCollection)
+  const toggleLab = useGameStore(s => s.toggleLab)
 
   const handleWalletClick = () => {
     if (walletConnected) {
       setWalletDisconnected()
     } else {
-      // Simulate wallet connection for prototype
-      // In production: integrate wagmi/rainbowkit here
-      const fakeAddr = '0x' + Array.from({length: 40}, () => 
+      const fakeAddr = '0x' + Array.from({length: 40}, () =>
         '0123456789abcdef'[Math.floor(Math.random() * 16)]
       ).join('')
       setWalletConnected(fakeAddr)
@@ -31,13 +33,12 @@ const GameUI = () => {
 
   return (
     <div className="game-hud">
-      {/* Left: Logo + Balance */}
       <div className="hud-left">
         <div className="game-logo">
           <span className="logo-icon">🌱</span>
           <h1>Glade</h1>
         </div>
-        
+
         <div style={{ marginTop: '12px' }}>
           <div className="seed-balance">
             <span className="seed-icon">🪙</span>
@@ -62,11 +63,25 @@ const GameUI = () => {
             <span className="stat-value">{pestsKilled}</span>
           </div>
         </div>
+
+        {/* Game action buttons */}
+        <div className="hud-actions">
+          <button className="hud-action-btn collection" onClick={toggleCollection}>
+            Cards ({seedCards.length})
+          </button>
+          <button className="hud-action-btn lab" onClick={toggleLab}>
+            Lab
+          </button>
+          {stakedCards.length > 0 && (
+            <div className="staking-indicator">
+              Staking: {stakedCards.length} cards
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Right: Wallet */}
       <div className="hud-right">
-        <button 
+        <button
           className={`wallet-btn ${walletConnected ? 'connected' : ''}`}
           onClick={handleWalletClick}
         >

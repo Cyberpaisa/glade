@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { generateSeedCard, hybridize, getHybridCost, RARITY, TRAITS } from './seedCards'
 
 // Plant types with growth times and yields
 export const PLANT_TYPES = {
@@ -99,6 +100,18 @@ export const useGameStore = create((set, get) => ({
 
   // Pest state
   pests: [], // { id, type, targetPlotId, progress (0-1), hp }
+
+  // Card collection
+  seedCards: [],
+  selectedCardForPlant: null,
+  showCollection: false,
+  showLab: false,
+  labCardA: null,
+  labCardB: null,
+
+  // Staking
+  stakedCards: [],
+  stakingRewards: 0,
 
   // Player 3D position
   playerPosition: [0, 0, 10],
@@ -329,6 +342,195 @@ export const useGameStore = create((set, get) => ({
           plant: { ...plot.plant, stage, health }
         }
       })
+    })
+  },
+
+  // --- Card System ---
+  toggleCollection: () => set(s => ({ showCollection: !s.showCollection, showLab: false })),
+  toggleLab: () => set(s => ({ showLab: !s.showLab, showCollection: false })),
+
+  // Buy a seed pack (random cards)
+  buySeedPack: (tier = 'basic') => {
+    const state = get()
+    const cost = tier === 'premium' ? 50 : 15
+    if (state.seedBalance < cost) return false
+
+    const cards = []
+    const strains = ['tomato', 'corn', 'carrot', 'lettuce']
+
+    const count = tier === 'premium' ? 3 : 1
+    for (let i = 0; i < count; i++) {
+      const strain = strains[Math.floor(Math.random() * strains.length)]
+      const roll = Math.random()
+      let rarity = 'common'
+      if (tier === 'premium') {
+        if (roll < 0.02) rarity = 'legendary'
+        else if (roll < 0.1) rarity = 'epic'
+        else if (roll < 0.4) rarity = 'rare'
+      } else {
+        if (roll < 0.005) rarity = 'legendary'
+        else if (roll < 0.03) rarity = 'epic'
+        else if (roll < 0.15) rarity = 'rare'
+      }
+      cards.push(generateSeedCard(strain, rarity))
+    }
+
+    set({
+      seedBalance: state.seedBalance - cost,
+      seedCards: [...state.seedCards, ...cards],
+      notifications: [...state.notifications, {
+        id: Date.now(),
+        message: `Abriste pack ${tier}! ${cards.map(c => `[${RARITY[c.rarity].name}] ${c.name}`).join(', ')}`,
+        type: cards.some(c => c.rarity === 'legendary' || c.rarity === 'epic') ? 'harvest' : 'plant'
+      }]
+    })
+    return cards
+  },
+
+  // Select a card to plant
+  selectCardForPlant: (cardId) => set({ selectedCardForPlant: cardId }),
+
+  // Plant using a specific card (enhanced planting)
+  plantWithCard: (plotId, cardId) => {
+    const state = get()
+    const card = state.seedCards.find(c => c.id === cardId)
+    if (!card) return false
+
+    const plot = state.plots.find(p => p.id === plotId)
+    if (!plot || plot.plant) return false
+
+    // Card-based planting costs SEED based on rarity
+    const cost = Math.round(10 * RARITY[card.rarity].multiplier)
+    if (state.seedBalance < cost) return false
+
+    // Apply trait modifiers
+    let growthTime = card.stats.growthTime
+    let yieldAmount = card.stats.yield
+    let pestResist = 1.0
+    let glows = false
+
+    for (const traitKey of card.traits) {
+      const trait = TRAITS[traitKey]
+      if (trait.effect.growthMod) growthTime = Math.round(growthTime * trait.effect.growthMod)
+      if (trait.effect.yieldMod) yieldAmount = Math.round(yieldAmount * trait.effect.yieldMod)
+      if (trait.effect.pestResist) pestResist = trait.effect.pestResist
+      if (trait.effect.glow) glows = true
+    }
+
+    set({
+      seedBalance: state.seedBalance - cost,
+      totalPlanted: state.totalPlanted + 1,
+      showPlantMenu: false,
+      showCollection: false,
+      selectedPlotId: null,
+      selectedCardForPlant: null,
+      seedCards: state.seedCards.filter(c => c.id !== cardId),
+      plots: state.plots.map(p =>
+        p.id === plotId
+          ? {
+              ...p,
+              plant: {
+                type: card.strainKey.split('_')[0] || 'tomato',
+                plantedAt: Date.now(),
+                stage: 'seed',
+                health: 100,
+                card: { ...card, growthTime, yieldAmount, pestResist, glows },
+              }
+            }
+          : p
+      ),
+      notifications: [...state.notifications, {
+        id: Date.now(),
+        message: `Plantaste [${RARITY[card.rarity].name}] ${card.name} (-${cost} SEED)`,
+        type: 'plant'
+      }]
+    })
+    return true
+  },
+
+  // Hybridization lab
+  setLabCard: (slot, cardId) => {
+    if (slot === 'A') set({ labCardA: cardId })
+    else set({ labCardB: cardId })
+  },
+
+  hybridizeCards: () => {
+    const state = get()
+    if (!state.labCardA || !state.labCardB) return false
+
+    const cardA = state.seedCards.find(c => c.id === state.labCardA)
+    const cardB = state.seedCards.find(c => c.id === state.labCardB)
+    if (!cardA || !cardB) return false
+
+    const cost = getHybridCost(cardA, cardB)
+    if (state.seedBalance < cost) return false
+
+    const hybrid = hybridize(cardA, cardB)
+
+    set({
+      seedBalance: state.seedBalance - cost,
+      seedCards: [
+        ...state.seedCards.filter(c => c.id !== cardA.id && c.id !== cardB.id),
+        hybrid
+      ],
+      labCardA: null,
+      labCardB: null,
+      notifications: [...state.notifications, {
+        id: Date.now(),
+        message: `Hibrido creado! [${RARITY[hybrid.rarity].name}] ${hybrid.name}`,
+        type: hybrid.rarity === 'legendary' || hybrid.rarity === 'epic' ? 'harvest' : 'plant'
+      }]
+    })
+    return hybrid
+  },
+
+  // Staking
+  stakeCard: (cardId) => {
+    const state = get()
+    const card = state.seedCards.find(c => c.id === cardId)
+    if (!card || card.stakingYield <= 0) return false
+
+    set({
+      seedCards: state.seedCards.filter(c => c.id !== cardId),
+      stakedCards: [...state.stakedCards, { ...card, stakedAt: Date.now() }],
+      notifications: [...state.notifications, {
+        id: Date.now(),
+        message: `Staked [${RARITY[card.rarity].name}] ${card.name} (${(card.stakingYield * 100).toFixed(0)}% yield)`,
+        type: 'plant'
+      }]
+    })
+    return true
+  },
+
+  unstakeCard: (cardId) => {
+    const state = get()
+    const card = state.stakedCards.find(c => c.id === cardId)
+    if (!card) return false
+
+    set({
+      stakedCards: state.stakedCards.filter(c => c.id !== cardId),
+      seedCards: [...state.seedCards, card],
+    })
+    return true
+  },
+
+  // Collect staking rewards (called periodically)
+  collectStakingRewards: () => {
+    const state = get()
+    if (state.stakedCards.length === 0) return
+
+    // Rewards based on total staking yield per tick
+    let totalYield = 0
+    for (const card of state.stakedCards) {
+      totalYield += card.stakingYield
+    }
+
+    const reward = Math.round(totalYield * 10) // 10 SEED base per tick * yield%
+    if (reward <= 0) return
+
+    set({
+      seedBalance: state.seedBalance + reward,
+      stakingRewards: state.stakingRewards + reward,
     })
   },
 
